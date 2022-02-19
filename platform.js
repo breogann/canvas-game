@@ -6,7 +6,7 @@ class Platform {
             y
         }
 
-        this.width = 200
+        this.width = 250
         this.height = 20
     }
 
@@ -18,6 +18,6 @@ class Platform {
 }
 
 const platforms = [new Platform({
-    x: 200, y:200
+    x: -1, y:canvas.height-20
 }), new Platform({x:500, y: 400})]
 
