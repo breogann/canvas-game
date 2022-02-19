@@ -1,5 +1,4 @@
-
-const gravity = 1
+const gravity = 1.5
 
 class Player {
     constructor () {
@@ -28,7 +27,7 @@ class Player {
         this.position.x += this.velocity.x
 
         //if the character is above the bottom frame, bring it down, otherwise stop it
-        if (this.position.y + this.height <= 750) {
+        if (this.position.y + this.height <= canvas.height - this.height) {
             console.log(canvas.height)
             console.log("Square is above the frame")
             this.velocity.y += gravity
@@ -40,9 +39,3 @@ class Player {
 
 const player = new Player()
 player.update()
-
-
-
-
-
-

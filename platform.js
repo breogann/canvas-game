@@ -1,9 +1,9 @@
 class Platform {
 
-    constructor(position) {
+    constructor({x, y}) {
         this.position = {
-            x:200,
-            y:600,
+            x,
+            y
         }
 
         this.width = 200
@@ -17,6 +17,7 @@ class Platform {
 
 }
 
-const platform = new Platform()
-//const platforms = [new Platform()]
+const platforms = [new Platform({
+    x: 200, y:200
+}), new Platform({x:500, y: 400})]
 

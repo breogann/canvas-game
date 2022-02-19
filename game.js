@@ -8,28 +8,42 @@ const keys = {
     }
 }
 
+let scrollOffset = 0
+
 
 function animate () {
     requestAnimationFrame (animate)
     context.clearRect(0, 0, canvas.width, canvas.height)
+
+    platforms.forEach(platform => {
+        platform.draw()
+    })
+
     player.update()
-    platform.draw()
+
     
-    if (keys.right.pressed && player.position.x < 400) {
-        player.velocity.x = 5
-    } else if (keys.left.pressed && player.position.x > 100){
-        player.velocity.x = -5
-    } else {
-        player.velocity.x = 0
-        if (keys.right.pressed) {
-            platform.position.x -= 5
-        } else if (keys.left.pressed) {
-            platform.position.x += 5
-        }
-     }
+    platforms.forEach(platform => {
+        if (keys.right.pressed && player.position.x < 400) {
+            player.velocity.x = 5
+        } else if (keys.left.pressed && player.position.x > canvas.width){
+            player.velocity.x = -5
+        } else {
+            player.velocity.x = 0
+            if (keys.right.pressed) {
+                scrollOffset += 5
+                platform.position.x -= 5
+            } else if (keys.left.pressed) {
+                scrollOffset -= 5
+                platform.position.x += 5
+            }
+         }
+    });
+
+   
 
 
-    //checkin for collision: character & platform
+//checkin for collision: character & platform
+    platforms.forEach(platform => {
     if (
         //if character is RIGHT on the same height as platform
         player.position.y + player.height <= platform.position.y &&
@@ -41,7 +55,13 @@ function animate () {
         ) {
         player.velocity.y = 0
     } 
- }
+ })
+};
+
+
+if (scrollOffset > 200) {
+    console.log("You win")
+}
 
 animate()
 
