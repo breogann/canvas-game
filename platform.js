@@ -1,23 +1,20 @@
 class Platform {
 
-    constructor({x, y}) {
+    constructor({x, y, image}) {
         this.position = {
             x,
             y
         }
 
-        this.width = 250
+        this.image = image
+        this.width = 58
         this.height = 20
     }
 
+    
     draw () {
-        context.fillStyle = "blue"
-        context.fillRect(this.position.x, this.position.y, this.width, this.height)
+        console.log("IMAGEN EN PLAT DRAW", this.image)
+        context.drawImage(this.image, this.position.x, this.position.y)
     }
 
 }
-
-const platforms = [new Platform({
-    x: -1, y:canvas.height-20
-}), new Platform({x:500, y: 400})]
-
