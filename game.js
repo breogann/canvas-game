@@ -11,12 +11,8 @@ const keys = {
 let scrollOffset = 0;
 
 let platforms = [
-  new Platform({
-    x: -1,
-    y: canvas.height - 20,
-    imageUrl: "./img/platform.png"
-  }),
-  new Platform({ x: 500, y: 400, imageUrl:  "./img/platform.png" }),
+  new Platform({x: -1, y: canvas.height - 100, imageUrl: "./img/platform.png"}),
+  new Platform({x: 500, y: 300, imageUrl: "./img/platform.png" }),
 ];
 
 function animate() {

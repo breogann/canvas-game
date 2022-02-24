@@ -11,7 +11,6 @@ class Platform {
     
     draw () {
         this.width = this.imageInstance.width
-        console.log("LA ANCHURA DE LA FOTO ES: ",this.width)
         context.drawImage(this.imageInstance, this.position.x, this.position.y)
     }
 
