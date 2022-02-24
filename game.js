@@ -14,9 +14,9 @@ let platforms = [
   new Platform({
     x: -1,
     y: canvas.height - 20,
-    image
+    imageUrl: "./img/platform.png"
   }),
-  new Platform({ x: 500, y: 400, image }),
+  new Platform({ x: 500, y: 400, imageUrl:  "./img/platform.png" }),
 ];
 
 function animate() {
@@ -66,26 +66,9 @@ function animate() {
 if (scrollOffset > 200) {
   console.log("You win");
 }
+ 
 
-function sleep (time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
-  
-  sleep(600).then(() => {
-      animate()
-  });
-
-
-// function load (elAncho) {
-//     if (elAncho > 0) {
-//         return animate()
-//     } else {
-
-//         return load(elAncho)
-//     }
-// }
-
-// load(image.width)
+animate()
 
 addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {
