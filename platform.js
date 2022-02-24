@@ -7,13 +7,13 @@ class Platform {
         }
 
         this.image = image
-        this.width = 58
+        this.width = image.width
         this.height = 20
     }
 
     
     draw () {
-        console.log("IMAGEN EN PLAT DRAW", this.image)
+        console.log("LA ANCHURA DE LA FOTO ES: ",this.width)
         context.drawImage(this.image, this.position.x, this.position.y)
     }
 

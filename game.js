@@ -10,15 +10,13 @@ const keys = {
 
 let scrollOffset = 0;
 
-console.log(image)
-
 let platforms = [
   new Platform({
     x: -1,
     y: canvas.height - 20,
-    image: image
+    image
   }),
-  new Platform({ x: 500, y: 400, image: image }),
+  new Platform({ x: 500, y: 400, image }),
 ];
 
 function animate() {
@@ -69,7 +67,25 @@ if (scrollOffset > 200) {
   console.log("You win");
 }
 
-animate();
+function sleep (time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+  
+  sleep(600).then(() => {
+      animate()
+  });
+
+
+// function load (elAncho) {
+//     if (elAncho > 0) {
+//         return animate()
+//     } else {
+
+//         return load(elAncho)
+//     }
+// }
+
+// load(image.width)
 
 addEventListener("keydown", ({ keyCode }) => {
   switch (keyCode) {

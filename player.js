@@ -28,7 +28,7 @@ class Player {
 
         //if the character is above the bottom frame, bring it down, otherwise stop it
         if (this.position.y + this.height <= canvas.height - this.height) {
-            console.log(canvas.height)
+            //console.log(canvas.height)
             console.log("Square is above the frame")
             this.velocity.y += gravity
         } else {
