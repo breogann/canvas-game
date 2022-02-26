@@ -8,43 +8,29 @@ const keys = {
   },
 };
 
-let scrollOffset = 0;
-
+// DRAW BACKGROUND AND PLATFORMS
 
 //Loading pictures
 const platformImageUrl = "./img/platform.png"
 const backgroundImageUrl = "./img/background.png"
 const hillImagerUrl = "./img/hill.png"
 
-
-// Create objects, either background, character, etc.
-function createImage(imageSrc) {
-  const image = new Image()
-  image.src = imageSrc
-  return image
-}
-
-
-//Arrays for variable declaration
-let genericObjectArray = [
-  new genericObject({x: 0, y: 0, image: createImage(backgroundImageUrl)}),
-]
-
+//Array for variable declaration
 let platforms = [
-  new Platform({x: -1, y: canvas.height - 100, imageUrl: "./img/platform.png"}),
-  new Platform({x: 800, y: canvas.height - 300, imageUrl: "./img/platform.png" }),
+  new Platform({x: 0, y: 0, imageUrl: backgroundImageUrl}),
+  new Platform({x: -1, y: canvas.height - 100, imageUrl: platformImageUrl}),
+  new Platform({x: 800, y: canvas.height - 300, imageUrl: platformImageUrl}),
 ];
 
-
-//Iterating to draw the elements on the arrayss
-genericObjectArray.forEach(genericObject => {
-  genericObjectArray[0].draw()
-})
-
+//Iterating to draw the elements on the arrays
 platforms.forEach(genericObject => {
   genericObject.draw()
 })
 
+
+
+//Variable declaration for winning scenario
+let scrollOffset = 0;
 
 //Running the whole thing
 function animate() {
