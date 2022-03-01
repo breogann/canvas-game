@@ -31,7 +31,6 @@ class Game {
     this.setDimensions(); //define canvas dimensions
     this.createBackground();
     this.createPlatforms(); //define platforms
-    this.createBackground(); //define the background
     this.drawAll(); //draw both background and platforms
     this.start(); //start the loop & update position
     this.movePlayer();
@@ -59,8 +58,8 @@ class Game {
   }
 
   drawAll() {
-    this.platforms.forEach((elm) => elm.draw());
     this.backgrounds.forEach((elm) => elm.draw());
+    this.platforms.forEach((elm) => elm.draw());
     this.player.draw();
   }
 

@@ -15,10 +15,8 @@ class Background {
       this.imageInstance,
       this.position.x,
       this.position.y,
-      this.imageInstance.width,
-      this.imageInstance.height
+      this.game.gameSize.w,
+      this.game.gameSize.h
     );
   }
 }
-
-//platform.js:13 Uncaught TypeError: Cannot read properties of undefined (reading 'drawImage')
