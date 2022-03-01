@@ -1,17 +1,24 @@
 const gravity = 1.5;
 
 class Player {
-  constructor() {
+  constructor(game) {
     this.position = { x: 200, y: 100 };
     this.velocity = { x: 0, y: 0 };
 
     this.width = 30;
     this.height = 30;
+
+    this.game = game;
   }
 
   draw() {
-    ctx.fillStyle = "red";
-    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+    this.game.ctx.fillStyle = "red";
+    this.game.ctx.fillRect(
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height
+    );
     this.update();
   }
 

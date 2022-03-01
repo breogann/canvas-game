@@ -1,19 +1,24 @@
 class Background {
-  constructor(Game, x, y, imageUrl) {
+  constructor(game, x, y, imageInstance) {
     this.position = { x, y };
-    this.imageInstance = new Image();
-    this.imageInstance.src = imageUrl;
-    this.width = this.imageInstance.width;
-    this.height = 20;
-    this.game = Game;
+
+    // this.imageInstance = new Image();
+    // this.imageInstance.src = imageUrl;
+    this.imageInstance = imageInstance;
+
+    this.game = game;
   }
 
   draw() {
-    this.width = this.imageInstance.width;
+    console.log(this.game);
     this.game.ctx.drawImage(
       this.imageInstance,
       this.position.x,
-      this.position.y
+      this.position.y,
+      50,
+      50
     );
   }
 }
+
+//platform.js:13 Uncaught TypeError: Cannot read properties of undefined (reading 'drawImage')

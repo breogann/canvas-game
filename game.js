@@ -1,22 +1,29 @@
-const Game = {
-  keys: {
-    right: { pressed: false },
-    left: { pressed: false },
-  },
-  platforms: [],
-  backgrounds: [],
-  player: new Player(),
-  images: {
-    platform: "./img/platform.png",
-    background: "./img/background.png",
-    hill: "./img/hills.png",
-  },
-  canvas: document.querySelector("canvas"),
-  ctx: this.canvas.getContext("2d"),
-  gameSize: {
-    w: window.innerWidth,
-    h: window.innerHeight,
-  },
+const images = {
+  platform: new Image(),
+  background: new Image(),
+  hill: new Image(),
+};
+
+images.platform.src = "./img/platform.png";
+images.background.src = "./img/background.png";
+images.hill.src = "./img/hills.png";
+
+class Game {
+  constructor() {
+    this.platforms = [];
+    this.backgrounds = [];
+    this.player = new Player(this);
+    this.canvas = document.querySelector("canvas");
+    this.ctx = this.canvas.getContext("2d");
+    this.keys = {
+      right: { pressed: false },
+      left: { pressed: false },
+    };
+    this.gameSize = {
+      w: window.innerWidth,
+      h: window.innerHeight,
+    };
+  }
 
   init() {
     this.setDimensions(); //define canvas dimensions
@@ -26,50 +33,45 @@ const Game = {
     this.start(); //start the loop & update position
     this.movePlayer();
     this.checkForCollision();
-  },
+    console.log(this.ctx);
+  }
 
   setDimensions() {
     this.canvas.width = this.gameSize.w;
     this.canvas.height = this.gameSize.h;
-  },
+  }
 
   createPlatforms() {
     this.platforms = [
-      new Platform({
-        x: 0,
-        y: canvas.height - 100,
-        imageUrl: this.images.platform,
-      }),
-      new Platform({
-        x: 800,
-        y: canvas.height - 100,
-        imageUrl: this.images.platform,
-      }),
+      new Platform(this, 0, canvas.height - 100, images.platform),
+      new Platform(this, 800, canvas.height - 100, images.platform),
     ];
-  },
+  }
 
   createBackground() {
     this.backgrounds = [
-      new Background({ x: 0, y: 0, imageUrl: this.images.hill }),
-      new Background({ x: -1, y: -1, imageUrl: this.images.background }),
+      new Background(this, 0, 0, images.hill),
+      new Background(this, -1, -1, images.background),
     ];
-  },
+  }
 
   drawAll() {
     this.platforms.forEach((elm) => elm.draw());
     this.backgrounds.forEach((elm) => elm.draw());
     this.player.draw();
-  },
+  }
 
   start() {
-    requestAnimationFrame(this.start());
-    this.ctx.fillStyle = "white";
-    this.ctx.fillRect(0, 0, this.gameSize.w, this.gameSize.h);
+    window.requestAnimationFrame(() => {
+      // this.ctx.fillStyle = "white";
+      // this.ctx.fillRect(0, 0, this.gameSize.w, this.gameSize.h);
 
-    this.drawAll();
-    this.enableControls();
-    this.movePlayer();
-  },
+      this.drawAll();
+      this.enableControls();
+      this.movePlayer();
+      this.start();
+    });
+  }
 
   enableControls() {
     addEventListener("keydown", ({ keyCode }) => {
@@ -126,28 +128,28 @@ const Game = {
           break;
       }
     });
-  },
+  }
 
   movePlayer() {
-    platforms.forEach((platform) => {
-      if (keys.right.pressed && player.position.x < 400) {
+    this.platforms.forEach((platform) => {
+      if (this.keys.right.pressed && player.position.x < 400) {
         player.velocity.x = 5;
-      } else if (keys.left.pressed && player.position.x > canvas.width) {
+      } else if (this.keys.left.pressed && player.position.x > canvas.width) {
         player.velocity.x = -5;
       } else {
-        player.velocity.x = 0;
-        if (keys.right.pressed) {
+        this.player.velocity.x = 0;
+        if (this.keys.right.pressed) {
           scrollOffset += 5;
           platform.position.x -= 5;
           platforms[0].position.x -= 2; //parallax effect on hills
-        } else if (keys.left.pressed) {
+        } else if (this.keys.left.pressed) {
           scrollOffset -= 5;
           platform.position.x += 5;
           platforms[0].position.x += 2; //parallax effect on hills
         }
       }
     });
-  },
+  }
 
   winOrLose() {
     if (scrollOffset > 2000) {
@@ -156,7 +158,7 @@ const Game = {
       console.log("you lose");
       this.init();
     }
-  },
+  }
 
   checkForCollision() {
     platforms.forEach((platform) => {
@@ -172,9 +174,8 @@ const Game = {
         player.velocity.y = 0;
       }
     });
-  },
-};
+  }
+}
+const game = new Game();
 
-console.log(Game.canvas);
-
-Game.init();
+game.init();
