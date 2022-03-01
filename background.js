@@ -1,4 +1,4 @@
-class Platform {
+class Background {
   constructor(Game, x, y, imageUrl) {
     this.position = { x, y };
     this.imageInstance = new Image();
