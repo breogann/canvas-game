@@ -15,10 +15,8 @@ class Platform {
       this.imageInstance,
       this.position.x,
       this.position.y,
-      50,
-      50
+      this.imageInstance.width,
+      this.imageInstance.height
     );
   }
 }
-
-//platform.js:13 Uncaught TypeError: Cannot read properties of undefined (reading 'drawImage')

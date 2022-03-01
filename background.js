@@ -15,8 +15,8 @@ class Background {
       this.imageInstance,
       this.position.x,
       this.position.y,
-      50,
-      50
+      this.imageInstance.width,
+      this.imageInstance.height
     );
   }
 }

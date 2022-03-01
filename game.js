@@ -8,6 +8,8 @@ images.platform.src = "./img/platform.png";
 images.background.src = "./img/background.png";
 images.hill.src = "./img/hills.png";
 
+let scrollOffset = 0;
+
 class Game {
   constructor() {
     this.platforms = [];
@@ -27,6 +29,7 @@ class Game {
 
   init() {
     this.setDimensions(); //define canvas dimensions
+    this.createBackground();
     this.createPlatforms(); //define platforms
     this.createBackground(); //define the background
     this.drawAll(); //draw both background and platforms
@@ -50,8 +53,8 @@ class Game {
 
   createBackground() {
     this.backgrounds = [
-      new Background(this, 0, 0, images.hill),
-      new Background(this, -1, -1, images.background),
+      new Background(this, 0, 0, images.background),
+      new Background(this, -1, -1, images.hill),
     ];
   }
 
@@ -63,12 +66,13 @@ class Game {
 
   start() {
     window.requestAnimationFrame(() => {
-      // this.ctx.fillStyle = "white";
-      // this.ctx.fillRect(0, 0, this.gameSize.w, this.gameSize.h);
+      this.ctx.fillStyle = "white";
+      this.ctx.fillRect(0, 0, this.gameSize.w, this.gameSize.h);
 
       this.drawAll();
       this.enableControls();
       this.movePlayer();
+      this.checkForCollision();
       this.start();
     });
   }
@@ -79,7 +83,7 @@ class Game {
         case 65: //a key
         case 37: //left arrow
           console.log("left");
-          keys.left.pressed = true;
+          this.keys.left.pressed = true;
           break;
 
         case 83: //s key
@@ -90,13 +94,13 @@ class Game {
         case 68: //d key
         case 39: //right arrow
           console.log("right");
-          keys.right.pressed = true;
+          this.keys.right.pressed = true;
           break;
 
         case 87: //w key
         case 38: //up key
           console.log("up");
-          player.velocity.y -= 20;
+          this.player.velocity.y -= 20;
           break;
       }
     });
@@ -107,7 +111,7 @@ class Game {
         case 65: //a key
         case 37: //left arrow
           console.log("left");
-          keys.left.pressed = false;
+          this.keys.left.pressed = false;
           break;
 
         case 83: //s key
@@ -118,13 +122,13 @@ class Game {
         case 68: //d key
         case 39: //right arrow
           console.log("right");
-          keys.right.pressed = false;
+          this.keys.right.pressed = false;
           break;
 
         case 87: //w key
         case 38: //up key
           console.log("up");
-          player.velocity.y -= 5;
+          this.player.velocity.y -= 5;
           break;
       }
     });
@@ -132,20 +136,23 @@ class Game {
 
   movePlayer() {
     this.platforms.forEach((platform) => {
-      if (this.keys.right.pressed && player.position.x < 400) {
-        player.velocity.x = 5;
-      } else if (this.keys.left.pressed && player.position.x > canvas.width) {
-        player.velocity.x = -5;
+      if (this.keys.right.pressed && this.player.position.x < 400) {
+        this.player.velocity.x = 5;
+      } else if (
+        this.keys.left.pressed &&
+        this.player.position.x > canvas.width
+      ) {
+        this.player.velocity.x = -5;
       } else {
         this.player.velocity.x = 0;
         if (this.keys.right.pressed) {
           scrollOffset += 5;
           platform.position.x -= 5;
-          platforms[0].position.x -= 2; //parallax effect on hills
+          this.platforms[0].position.x -= 2; //parallax effect on hills
         } else if (this.keys.left.pressed) {
           scrollOffset -= 5;
           platform.position.x += 5;
-          platforms[0].position.x += 2; //parallax effect on hills
+          this.platforms[0].position.x += 2; //parallax effect on hills
         }
       }
     });
@@ -154,24 +161,24 @@ class Game {
   winOrLose() {
     if (scrollOffset > 2000) {
       console.log("You win");
-    } else if (player.position.y + player.height >= 544) {
+    } else if (this.player.position.y + this.player.height >= 544) {
       console.log("you lose");
       this.init();
     }
   }
 
   checkForCollision() {
-    platforms.forEach((platform) => {
+    this.platforms.forEach((platform) => {
       if (
         //if character is RIGHT on the same height as platform
-        player.position.y + player.height <= platform.position.y &&
-        player.position.y + player.height + player.velocity.y >=
+        this.player.position.y + this.player.height <= platform.position.y &&
+        this.player.position.y + this.player.height + this.player.velocity.y >=
           platform.position.y &&
         //if character is ON platform: it's position+width is between the width of the platform
-        player.position.x + player.width >= platform.position.x &&
-        player.position.x <= platform.position.x + platform.width
+        this.player.position.x + this.player.width >= platform.position.x &&
+        this.player.position.x <= platform.position.x + platform.width
       ) {
-        player.velocity.y = 0;
+        this.player.velocity.y = 0;
       }
     });
   }
