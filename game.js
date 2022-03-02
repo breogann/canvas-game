@@ -2,6 +2,7 @@ const images = {
   platform: new Image(),
   background: new Image(),
   hill: new Image(),
+  player: new Image(),
 };
 
 images.platform.src = "./img/platform.png";
@@ -11,10 +12,10 @@ images.hill.src = "./img/hills.png";
 let scrollOffset = 0;
 
 class Game {
-  constructor() {
+  constructor(image) {
     this.platforms = [];
     this.backgrounds = [];
-    this.player = new Player(this);
+    this.player = new Player(this, image);
     this.canvas = document.querySelector("canvas");
     this.ctx = this.canvas.getContext("2d");
     this.keys = {
@@ -32,10 +33,8 @@ class Game {
     this.createBackground();
     this.createPlatforms(); //define platforms
     this.drawAll(); //draw both background and platforms
-    this.start(); //start the loop & update position
     this.movePlayer();
-    this.checkForCollision();
-    console.log(this.ctx);
+    this.start(); //start the loop & update position
   }
 
   setDimensions() {
@@ -43,17 +42,17 @@ class Game {
     this.canvas.height = this.gameSize.h;
   }
 
-  createPlatforms() {
-    this.platforms = [
-      new Platform(this, 0, canvas.height - 100, images.platform),
-      new Platform(this, 800, canvas.height - 100, images.platform),
-    ];
-  }
-
   createBackground() {
     this.backgrounds = [
       new Background(this, 0, 0, images.background),
       new Background(this, -1, -1, images.hill),
+    ];
+  }
+
+  createPlatforms() {
+    this.platforms = [
+      new Platform(this, 0, canvas.height - 100, images.platform),
+      new Platform(this, 800, canvas.height - 100, images.platform),
     ];
   }
 
@@ -99,7 +98,7 @@ class Game {
         case 87: //w key
         case 38: //up key
           console.log("up");
-          this.player.velocity.y -= 20;
+          this.player.velocity.y -= 0.5;
           break;
       }
     });
@@ -127,7 +126,7 @@ class Game {
         case 87: //w key
         case 38: //up key
           console.log("up");
-          this.player.velocity.y -= 5;
+          this.player.velocity.y += 0;
           break;
       }
     });
@@ -167,6 +166,7 @@ class Game {
   }
 
   checkForCollision() {
+    console.log("CHECKING FOR COLLISION");
     this.platforms.forEach((platform) => {
       if (
         //if character is RIGHT on the same height as platform

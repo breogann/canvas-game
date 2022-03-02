@@ -1,11 +1,7 @@
 class Platform {
   constructor(game, x, y, imageInstance) {
     this.position = { x, y };
-
-    // this.imageInstance = new Image();
-    // this.imageInstance.src = imageUrl;
     this.imageInstance = imageInstance;
-
     this.game = game;
   }
 
