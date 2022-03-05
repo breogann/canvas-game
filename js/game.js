@@ -28,8 +28,8 @@ class Game {
   }
 
   init() {
-    this.canvasDOM = document.getElementById(`canvas`);
-    this.ctx = this.canvasDOM.getContext(`2d`);
+    this.canvas = document.getElementById(`canvas`);
+    this.ctx = this.canvas.getContext(`2d`);
     this.setDimensions();
     this.startGame();
   }
@@ -39,10 +39,11 @@ class Game {
       w: window.innerWidth,
       h: window.innerHeight,
     };
-    this.canvasDOM.setAttribute("width", this.canvasSize.w);
-    this.canvasDOM.setAttribute("height", this.canvasSize.h);
+    this.canvas.setAttribute("width", this.canvasSize.w);
+    this.canvas.setAttribute("height", this.canvasSize.h);
   }
 
+  //Running the game
   startGame() {
     //Create the three objects
     this.createBackground();
@@ -58,11 +59,11 @@ class Game {
 
       //How apart obstacles and platforms will be
       this.frames++;
-      this.frames % 120 === 0 && this.createObstacle();
-      this.frames % 100 === 0 && this.createPlatform();
+      this.frames % 110 === 0 && this.createObstacle();
+      this.frames % 125 === 0 && this.createPlatform();
 
       this.stopGame();
-      this.isPlatform();
+      //this.isPlatform();
       this.onPlatform();
       this.win();
 
@@ -72,12 +73,13 @@ class Game {
           title: "GAME OVER",
           text: "Your ship is gone!",
           icon: "warning",
-        });
+        }).then(() => runAll);
       }
       this.isPlayerOut() && this.gameOver();
     }, 1400 / 60);
   }
 
+  //Creating all the elements
   createBackground() {
     this.background = new Background(
       this.ctx,
@@ -92,6 +94,51 @@ class Game {
     this.player = new Player(this.ctx, this.canvasSize);
   }
 
+  createPlatform() {
+    const platform1 = new Platforms(
+      this.ctx,
+      this.canvasSize,
+      this.canvasSize.w,
+      this.canvasSize.h - 170,
+      150,
+      150
+    );
+    if (this.score != 15) {
+      this.platforms.push(platform1);
+      this.score++;
+    }
+  }
+
+  createObstacle() {
+    const obstacle1 = new Obstacles(
+      this.ctx,
+      this.canvasSize,
+      this.canvasSize.w,
+      this.canvasSize.h - 150,
+      105,
+      105
+    );
+    this.score < 15 && this.obstacles.push(obstacle1);
+  }
+
+  clearObstacle() {
+    this.obstacles = this.obstacles.filter(
+      (obs) => obs.obstaclePos.x >= 0 - 200
+    );
+  }
+
+  createShip() {
+    this.ship = new Ship(
+      this.ctx,
+      this.canvasSize,
+      this.canvasSize.w + 450,
+      this.canvasSize.h - 450,
+      350,
+      425
+    );
+  }
+
+  //Drawing the elements
   drawAll() {
     this.background.draw();
     this.player.draw();
@@ -101,6 +148,7 @@ class Game {
     this.score >= 15 && this.ship.draw();
   }
 
+  //Movement & controls
   moveAll() {
     this.obstacles.forEach((obs) => obs.move());
     this.platforms.forEach((plat) => plat.move());
@@ -127,54 +175,15 @@ class Game {
     };
   }
 
-  createObstacle() {
-    const obstacle1 = new Obstacles(
-      this.ctx,
-      this.canvasSize,
-      this.canvasSize.w,
-      this.canvasSize.h - 130,
-      100,
-      100
-    );
-    this.score < 15 && this.obstacles.push(obstacle1);
-  }
-
-  clearObstacle() {
-    this.obstacles = this.obstacles.filter(
-      (obs) => obs.obstaclePos.x >= 0 - 200
-    );
-  }
-
+  //Winning & losing
   isCollision() {
     return this.obstacles.some((obs) => {
       return (
-        this.player.posX + this.player.width - 180 >= obs.obstaclePos.x &&
+        this.player.posX + this.player.width / 2 >= obs.obstaclePos.x &&
         this.player.posY + this.player.height - 60 >= obs.obstaclePos.y &&
         this.player.posX <= obs.obstaclePos.x + obs.obstacleSize.w - 90
       );
     });
-  }
-
-  createPlatform() {
-    const platform1 = new Platforms(
-      this.ctx,
-      this.canvasSize,
-      this.canvasSize.w,
-      this.canvasSize.h - 160,
-      150,
-      150
-    );
-    if (this.score != 15) {
-      this.platforms.push(platform1);
-      this.score++;
-    }
-  }
-
-  stopGame() {
-    if (this.score >= 15) {
-      this.background.stopBackground();
-      this.ship.stop();
-    }
   }
 
   win() {
@@ -188,7 +197,7 @@ class Game {
         text: "You get to go back to Earth",
         icon: "success",
       }).then(() => {
-        this.gameOver();
+        //this.gameOver();
         this.startGame();
       });
   }
@@ -202,29 +211,38 @@ class Game {
     }
   }
 
+  stopGame() {
+    if (this.score >= 15) {
+      this.background.stopBackground();
+      this.ship.stop();
+    }
+  }
+
   clearPlatform() {
     this.platforms = this.platforms.filter(
       (plat) => plat.platformPos.x >= 0 - 400
     );
   }
 
-  isPlatform() {
-    this.platforms.forEach((plat) => {
-      if (
-        this.player.posX + this.player.width - 160 >= plat.platformPos.x &&
-        this.player.posY + this.player.height - 50 >= plat.platformPos.y &&
-        this.player.posX + 50 <= plat.platformPos.x + plat.platformSize.w - 50
-      ) {
-        this.player.posX -= 10;
-        return true;
-      }
-    });
-  }
+  // isPlatform() {
+  //   this.platforms.forEach((plat) => {
+  //     if (
+  //       this.player.posX + this.player.width / 2 >= plat.platformPos.x &&
+  //       this.player.posY + this.player.height - 50 >= plat.platformPos.y &&
+  //       this.player.posX + 50 <= plat.platformPos.x + plat.platformSize.w - 50
+  //     ) {
+  //       this.player.posX -= 10;
+  //       return true;
+  //     }
+  //   });
+  // }
+
+  //Helpers
   onPlatform() {
     let result = undefined;
     this.platforms.forEach((plat) => {
       if (
-        this.player.posX + this.player.width - 140 >= plat.platformPos.x &&
+        this.player.posX + this.player.width / 2 >= plat.platformPos.x &&
         this.player.posY + this.player.height >= plat.platformPos.y &&
         this.player.posX + 100 <= plat.platformPos.x + plat.platformSize.w
       ) {
@@ -244,17 +262,7 @@ class Game {
     }
   }
 
-  createShip() {
-    this.ship = new Ship(
-      this.ctx,
-      this.canvasSize,
-      this.canvasSize.w + 370,
-      this.canvasSize.h - 450,
-      350,
-      400
-    );
-  }
-
+  //Ending game
   gameOver() {
     clearInterval(this.interval);
   }

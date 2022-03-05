@@ -9,12 +9,16 @@ class Platforms {
       w: width,
       h: height,
     };
+
     //Position
     this.platformPos = {
       x: posX,
       y: posY,
     };
     this.platformFloor = this.posY;
+
+    //Velocity & acceleration
+    this.speed = 13;
 
     //Loading image
     this.imageName = "platform.png";
@@ -32,6 +36,6 @@ class Platforms {
     );
   }
   move() {
-    this.platformPos.x -= 9;
+    this.platformPos.x -= this.speed;
   }
 }
