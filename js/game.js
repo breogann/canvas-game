@@ -72,17 +72,7 @@ class Game {
       this.win();
 
       if (this.isCollision()) {
-        console.log("LOSTTTTTT");
-        //console.log(endscreen);
-        this.canvas.style.display = "none";
-        endscreen.style.display = "block";
-
-        this.gameOver();
-        //   swal({
-        //     title: "GAME OVER",
-        //     text: "Your ship is gone!",
-        //     icon: "warning",
-        //   }).then(() => {});
+        this.popUpWindows("GAME OVER", "Your ship is gone", "warning");
       }
       this.isPlayerOut() && this.gameOver();
     }, 1400 / 60);
@@ -96,6 +86,18 @@ class Game {
     this.platforms = [];
   }
 
+  popUpWindows(title, text, icon) {
+    clearInterval(this.interval);
+    swal({
+      title: title,
+      text: text,
+      icon: icon,
+    }).then(() => {
+      this.canvas.style.display = "none";
+      endscreen.style.display = "block";
+      this.gameOver();
+    });
+  }
   //Creating all the elements
   createBackground() {
     this.background = new Background(
@@ -228,19 +230,14 @@ class Game {
       this.player.posX + this.player.width - 200 >= this.ship.shipPos.x &&
       this.player.posY + this.player.height >= this.ship.shipPos.y &&
       this.player.posX <= this.ship.shipPos.x + this.ship.shipSize.w
-    )
-      swal({
-        title: "You win!",
-        text: "You get to go back to Earth",
-        icon: "success",
-      }).then(() => {
-        //
-      });
+    ) {
+      this.popUpWindows("YOU WON", "Austronat comes back to Earth", "success");
+    }
   }
 
   isPlayerOut() {
     if (this.player.posX < 0 - this.player.width) {
-      swal("¡GAME OVER!Too slow!");
+      this.popUpWindows("GAME OVER", "Too slow", "warning");
       return true;
     } else {
       return false;
