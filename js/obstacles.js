@@ -9,7 +9,7 @@ class Obstacles {
     this.obstacleSize = { w: width, h: height };
 
     //Velocity & acceleration
-    this.speed = 5;
+    this.speed = 14;
 
     //Loading image
     this.imageName = "obstacle.png";

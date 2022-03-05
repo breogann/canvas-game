@@ -10,7 +10,7 @@ class Background {
     this.backgroundPos = { x: posX, y: posY };
 
     //Velocity & acceleration
-    this.backgroundSpeed = 1;
+    this.backgroundSpeed = 6;
 
     //Loading image
     this.imageName = "background.png";

@@ -17,7 +17,7 @@ class Player {
     this.velY = 1;
     this.velX = 5;
 
-    this.gravity = 0.4;
+    this.gravity = 0.8;
     this.gravitySpeed = 0;
 
     //Loading image
@@ -39,8 +39,8 @@ class Player {
     this.posX += distance;
   }
   jump() {
-    this.posY -= 70;
-    this.velY -= 8;
+    this.posY -= 110;
+    this.velY -= 12;
   }
   fall() {
     if (this.posY < this.floor) {

@@ -44,27 +44,33 @@ class Game {
   }
 
   startGame() {
+    //Create the three objects
     this.createBackground();
     this.createPlayer();
     this.createShip();
+
     this.interval = setInterval(() => {
       this.drawAll();
       this.setEventListeners();
       this.moveAll();
       this.clearObstacle();
       this.clearPlatform();
+
+      //How apart obstacles and platforms will be
       this.frames++;
-      this.frames % 100 === 0 && this.createObstacle();
-      this.frames % 78 === 0 && this.createPlatform();
+      this.frames % 120 === 0 && this.createObstacle();
+      this.frames % 100 === 0 && this.createPlatform();
+
       this.stopGame();
       this.isPlatform();
       this.onPlatform();
       this.win();
+
       if (this.isCollision()) {
         this.gameOver();
         swal({
           title: "GAME OVER",
-          text: "¡¡Your ship is gone!!",
+          text: "Your ship is gone!",
           icon: "warning",
         });
       }
@@ -104,11 +110,12 @@ class Game {
 
   setEventListeners() {
     document.onkeydown = (e) => {
-      if (this.isPlatform() && e.key === this.keys.right) {
-        this.player.move(0);
-      } else if (e.key === this.keys.right) {
+      if (e.key === this.keys.right) {
         this.player.move(30);
       }
+      // } else if (e.key === this.keys.right) {
+      //   this.player.move(30);
+      // }
       if (e.key === this.keys.left) {
         this.player.move(-30);
       } else if (
@@ -125,9 +132,9 @@ class Game {
       this.ctx,
       this.canvasSize,
       this.canvasSize.w,
-      this.canvasSize.h - 110,
-      60,
-      60
+      this.canvasSize.h - 130,
+      100,
+      100
     );
     this.score < 15 && this.obstacles.push(obstacle1);
   }
@@ -153,9 +160,9 @@ class Game {
       this.ctx,
       this.canvasSize,
       this.canvasSize.w,
-      this.canvasSize.h - 130,
-      80,
-      80
+      this.canvasSize.h - 160,
+      150,
+      150
     );
     if (this.score != 15) {
       this.platforms.push(platform1);
@@ -177,9 +184,12 @@ class Game {
       this.player.posX <= this.ship.shipPos.x + this.ship.shipSize.w
     )
       swal({
-        title: "YOU WIN",
-        text: "¡¡YOU ARE A WARRIOR!!",
+        title: "You win!",
+        text: "You get to go back to Earth",
         icon: "success",
+      }).then(() => {
+        this.gameOver();
+        this.startGame();
       });
   }
 
@@ -238,9 +248,9 @@ class Game {
     this.ship = new Ship(
       this.ctx,
       this.canvasSize,
-      this.canvasSize.w + 400,
-      this.canvasSize.h - 400,
-      400,
+      this.canvasSize.w + 370,
+      this.canvasSize.h - 450,
+      350,
       400
     );
   }

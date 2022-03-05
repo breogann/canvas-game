@@ -32,6 +32,6 @@ class Platforms {
     );
   }
   move() {
-    this.platformPos.x -= 5;
+    this.platformPos.x -= 9;
   }
 }
