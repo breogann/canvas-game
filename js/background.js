@@ -1,13 +1,23 @@
 class Background {
   constructor(ctx, posX, posY, width, height) {
+    //Constants
     this.ctx = ctx;
-    this.backgroundPos = { x: posX, y: posY };
+
+    //Size
     this.backgroundSize = { w: width, h: height };
+
+    //Position
+    this.backgroundPos = { x: posX, y: posY };
+
+    //Velocity & acceleration
     this.backgroundSpeed = 1;
-    this.imageName = `background.png`;
+
+    //Loading image
+    this.imageName = "background.png";
     this.imageBackground = new Image();
     this.imageBackground.src = `images/${this.imageName}`;
   }
+
   draw() {
     this.move();
     this.ctx.drawImage(
