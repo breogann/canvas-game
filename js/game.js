@@ -60,9 +60,8 @@ class Game {
       this.clearPlatform();
 
       //How apart obstacles and platforms will be
-      this.frames++;
-      this.frames % 110 === 0 && this.createObstacle(this.level); //runs the function only when first clause is true
-      console.log("creating obstacleeee");
+      this.frames += 2;
+      this.frames % 115 === 0 && this.createObstacle(this.level); //runs the function only when first clause is true
       this.frames % 125 === 0 && this.createPlatform();
 
       this.stopGame();
@@ -109,12 +108,11 @@ class Game {
 
     if (this.score != 15) {
       this.platforms.push(platform1);
-      this.score++;
+      this.score += 2;
     }
   }
 
   createObstacle(level) {
-    console.log(level);
     const obstacle1 = new Obstacles(
       this.ctx,
       this.canvasSize,
@@ -135,7 +133,6 @@ class Game {
 
     if (this.score < 15) {
       if (this.level == "easy") {
-        console.log("isi");
         this.obstacles.push(obstacle1);
       } else if (this.level == "difficult") {
         this.obstacles.push(obstacle1), this.obstacles.push(obstacle2);
