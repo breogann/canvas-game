@@ -1,18 +1,34 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <link href="style.css" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-    <canvas id ="canvas" width="500" height="500"></canvas>
-    
-    <script src="player.js"></script>
-    <script src="platform.js"></script>
-    <script src="background.js"></script>
-    <script src="game.js"></script>
-    
+<html lang="en">
 
-  </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="shortcut icon" href="">
+    <title>🚀</title>
+</head>
+
+<body>
+    <audio id="audio" src="sounds/game.mp3" type="audio/wav "></audio>
+    <div id="auto">
+        <img src="images/start1.jpeg" alt="start game">
+        <button id="start-button">Start Game</button>
+    </div>
+    <div id="play">
+        <canvas id='canvas'></canvas>
+    </div>
+
+    <!--Import script for sweet alert2-->
+    <script src=" https://unpkg.com/sweetalert/dist/sweetalert.min.js "></script>
+
+    <script src="js/ship.js "></script>
+    <script src="js/obstacles.js "></script>
+    <script src="js/platforms.js "></script>
+    <script src="js/player.js "></script>
+    <script src="js/background.js "></script>
+    <script src="js/game.js "></script>
+    <script src="js/script.js "></script>
+
+</body>
 </html>
