@@ -1,7 +1,8 @@
 class Game {
-  constructor(level) {
+  constructor(level, screen) {
     //Constants
     this.level = level;
+    this.screen = screen;
 
     this.ctx = undefined;
     this.keys = {
@@ -47,6 +48,7 @@ class Game {
 
   //Running the game
   startGame(level) {
+    this.canvas.style.display = "block";
     //Create the three objects
     this.createBackground();
     this.createPlayer();
@@ -70,15 +72,28 @@ class Game {
       this.win();
 
       if (this.isCollision()) {
+        console.log("LOSTTTTTT");
+        //console.log(endscreen);
+        this.canvas.style.display = "none";
+        endscreen.style.display = "block";
+
         this.gameOver();
-        swal({
-          title: "GAME OVER",
-          text: "Your ship is gone!",
-          icon: "warning",
-        }).then(() => runAll);
+        //   swal({
+        //     title: "GAME OVER",
+        //     text: "Your ship is gone!",
+        //     icon: "warning",
+        //   }).then(() => {});
       }
       this.isPlayerOut() && this.gameOver();
     }, 1400 / 60);
+  }
+
+  reset() {
+    //Back into initial state
+    this.frames = 0;
+    this.score = 0;
+    this.obstacles = [];
+    this.platforms = [];
   }
 
   //Creating all the elements
@@ -219,8 +234,7 @@ class Game {
         text: "You get to go back to Earth",
         icon: "success",
       }).then(() => {
-        //this.gameOver();
-        this.startGame();
+        //
       });
   }
 
@@ -286,6 +300,8 @@ class Game {
 
   //Ending game
   gameOver() {
+    this.reset();
     clearInterval(this.interval);
+    return;
   }
 }

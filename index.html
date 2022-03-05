@@ -10,16 +10,24 @@
 </head>
 
 <body>
+    <div class="screen" id="start-screen">
     <audio id="audio" src="sounds/game.mp3" type="audio/wav "></audio>
     <div id="auto">
         <img src="images/start1.jpeg" alt="start game">
         <button id="start-easy">Start - Easy</button>
         <button id="start-difficult">Start - Difficult</button>
     </div>
+    </div>
     <div id="play">
         <canvas id='canvas'></canvas>
     </div>
-
+    <div id="end-screen">
+        <h1>
+            Game over
+        </h1>
+        <br/>
+        <button id="restart">Restart</button>
+    </div>
     <!--Import script for sweet alert2-->
     <script src=" https://unpkg.com/sweetalert/dist/sweetalert.min.js "></script>
 
