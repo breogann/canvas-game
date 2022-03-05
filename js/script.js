@@ -1,13 +1,19 @@
-//export function runAll()
-function runAll() {
-  window.onload = () => {
-    document.getElementById("start-button").onclick = () => {
-      document.getElementById("auto").style.display = "none";
-      const sound = document.getElementById("audio");
-      sound.play();
-      game.init();
-    };
+window.onload = () => {
+  document.getElementById("start-easy").onclick = () => {
+    const level = "easy";
+    const game = new Game(level);
+    document.getElementById("auto").style.display = "none";
+    const sound = document.getElementById("audio");
+    sound.play();
+    game.init(level);
   };
-}
 
-runAll();
+  document.getElementById("start-difficult").onclick = () => {
+    const level = "difficult";
+    const game = new Game(level);
+    document.getElementById("auto").style.display = "none";
+    const sound = document.getElementById("audio");
+    sound.play();
+    game.init(level);
+  };
+};

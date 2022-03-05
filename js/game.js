@@ -1,6 +1,8 @@
 class Game {
-  constructor() {
+  constructor(level) {
     //Constants
+    this.level = level;
+
     this.ctx = undefined;
     this.keys = {
       left: "a",
@@ -27,11 +29,11 @@ class Game {
     this.score = 0;
   }
 
-  init() {
+  init(level) {
     this.canvas = document.getElementById("canvas");
     this.ctx = this.canvas.getContext("2d");
     this.setDimensions();
-    this.startGame();
+    this.startGame(level);
   }
 
   setDimensions() {
@@ -44,7 +46,7 @@ class Game {
   }
 
   //Running the game
-  startGame() {
+  startGame(level) {
     //Create the three objects
     this.createBackground();
     this.createPlayer();
@@ -59,7 +61,8 @@ class Game {
 
       //How apart obstacles and platforms will be
       this.frames++;
-      this.frames % 110 === 0 && this.createObstacle(); //runs the function only when first clause is true
+      this.frames % 110 === 0 && this.createObstacle(this.level); //runs the function only when first clause is true
+      console.log("creating obstacleeee");
       this.frames % 125 === 0 && this.createPlatform();
 
       this.stopGame();
@@ -110,7 +113,8 @@ class Game {
     }
   }
 
-  createObstacle() {
+  createObstacle(level) {
+    console.log(level);
     const obstacle1 = new Obstacles(
       this.ctx,
       this.canvasSize,
@@ -130,8 +134,12 @@ class Game {
     );
 
     if (this.score < 15) {
-      this.obstacles.push(obstacle1);
-      this.obstacles.push(obstacle2);
+      if (this.level == "easy") {
+        console.log("isi");
+        this.obstacles.push(obstacle1);
+      } else if (this.level == "difficult") {
+        this.obstacles.push(obstacle1), this.obstacles.push(obstacle2);
+      }
     }
   }
 
@@ -284,5 +292,3 @@ class Game {
     clearInterval(this.interval);
   }
 }
-
-const game = new Game();
