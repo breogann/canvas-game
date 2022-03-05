@@ -22,14 +22,14 @@ class Game {
     this.obstacles = [];
     this.platforms = [];
 
-    //Variables set to zero
+    //Counters
     this.frames = 0;
     this.score = 0;
   }
 
   init() {
-    this.canvas = document.getElementById(`canvas`);
-    this.ctx = this.canvas.getContext(`2d`);
+    this.canvas = document.getElementById("canvas");
+    this.ctx = this.canvas.getContext("2d");
     this.setDimensions();
     this.startGame();
   }
@@ -59,7 +59,7 @@ class Game {
 
       //How apart obstacles and platforms will be
       this.frames++;
-      this.frames % 110 === 0 && this.createObstacle();
+      this.frames % 110 === 0 && this.createObstacle(); //runs the function only when first clause is true
       this.frames % 125 === 0 && this.createPlatform();
 
       this.stopGame();
@@ -103,6 +103,7 @@ class Game {
       150,
       150
     );
+
     if (this.score != 15) {
       this.platforms.push(platform1);
       this.score++;
@@ -118,7 +119,20 @@ class Game {
       105,
       105
     );
-    this.score < 15 && this.obstacles.push(obstacle1);
+
+    const obstacle2 = new Obstacles(
+      this.ctx,
+      this.canvasSize,
+      this.canvasSize.w - 350,
+      this.canvasSize.h - this.player.height + 30,
+      105,
+      105
+    );
+
+    if (this.score < 15) {
+      this.obstacles.push(obstacle1);
+      this.obstacles.push(obstacle2);
+    }
   }
 
   clearObstacle() {
@@ -152,7 +166,10 @@ class Game {
   moveAll() {
     this.obstacles.forEach((obs) => obs.move());
     this.platforms.forEach((plat) => plat.move());
-    this.score >= 15 && this.ship.moveShip();
+
+    if (this.score >= 15) {
+      this.ship.moveShip();
+    }
     this.backToFloor();
   }
 
@@ -167,7 +184,7 @@ class Game {
       if (e.key === this.keys.left) {
         this.player.move(-30);
       } else if (
-        this.player.floor === this.player.posY &&
+        //this.player.floor === this.player.posY &&
         e.key === this.keys.up
       ) {
         this.player.jump();
