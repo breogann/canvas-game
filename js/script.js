@@ -28,9 +28,7 @@ function runAll() {
 runAll();
 
 document.getElementById("restart").addEventListener("click", (e) => {
-  // this.game.reset();
   document.getElementById("auto").style.display = "block";
-  //document.getElementById("play").style.display = "block";
   document.getElementById("end-screen").style.display = "none";
   runAll();
 });
